@@ -3,56 +3,83 @@ import Image from 'next/image';
 import { useEffect, useState } from 'react';
 import { getWeatherApi } from '../../services/service';
 import styles from './city.module.scss';
+import { useRouter } from 'next/router';
 // import styles>
 
 export default function City({resData}) {
 
     const date = new Date();
+    
+    const router = useRouter();
 
-    console.log(resData);
+    const {name, weather, main, clouds, wind} = resData;
 
-    const {name, weather, main} = resData;
+    // <search result
 
-    const [cityData ,setCitryData] = useState(null);
+    const [searchInput, setSearchInput] = useState('')
 
     async function getCityApi() {
 
-        const response = await getWeatherApi("madrid");
+        if(searchInput) {
+            const response = await getWeatherApi(searchInput);
+    
+            if(response.type) {
+                if(response.data.length !== 0) {
+                    const data = response.data[0];
+                    router.push(`/city/${data.name}/${data.lat}/${data.lon}`);
+                } else {
+                    alert('Invalid city name');
 
-        if(response.type) {
-            setCitryData(response.data);
-        };
+                }
+            }
+        }
         
     };
-    useEffect(() => {
-        getCityApi();
-    },[]);
+
+    function handleSubmitSearch(e) {
+        if (e.keyCode == 13) {
+            getCityApi()
+        }
+    }
+    
+    // search result>
 
     return (
         <div className={styles.city}>
-            <div className={styles.mainBanner}>
-                <div className={styles.image}>
-                    <Image src={'/images/wallpaper.jpg'} width={'600px'} height={'600px'} alt='weather'/>
-                </div>
-                <span className={styles.header}>.openweathermap</span>
-                <div className={styles.displayCityDetails}>
-                    temp :
-                    <h3>{main.temp}</h3>
-                    <div className={styles.cityAndDate}>
-                        <h4>{name}</h4>
-                        <span>{date.toString().slice(0, 15)}</span>
+            <span className={styles.homePage} onClick={() => router.push('/')} >Home Page</span>
+            <div className={styles.content}>
+                <div className={styles.mainBanner}>
+                    <div className={styles.image}>
+                        <Image src={'/images/wallpaper.jpg'} width={'600px'} height={'600px'} alt='weather'/>
                     </div>
-                    <span>{weather[0].main}</span>
+                    <span className={styles.header}>.openweathermap</span>
+                    <div className={styles.displayCityDetails}>
+                        temp :
+                        <h3>{main.temp}</h3>
+                        <div className={styles.cityAndDate}>
+                            <h4>{name}</h4>
+                            <span>{date.toString().slice(0, 15)}</span>
+                        </div>
+                        <span>{weather[0].main}</span>
+                    </div>
                 </div>
-            </div>
-            <div className={styles.searchAndDetails}>
-                <input type="search" placeholder='Another Location ...' />
-                <div className={styles.weatherDetails}>
-                    <h5>Weather Details</h5>
-                    <div className={styles.details}>
-                        <div className={styles.item}>
-                            <span>cloud</span>
-                            <span>86</span>
+                <div className={styles.searchAndDetails}>
+                    <input type="search" placeholder='Another Location ...' onKeyDown={handleSubmitSearch}  onChange={(e) => setSearchInput(e.target.value)} />
+                    <div className={styles.weatherDetails}>
+                        <h5>Weather Details</h5>
+                        <div className={styles.details}>
+                            <div className={styles.item}>
+                                <span>cloud</span>
+                                <span>{clouds.all}</span>
+                            </div>
+                            <div className={styles.item}>
+                                <span>humidity</span>
+                                <span>{main.humidity}</span>
+                            </div>
+                            <div className={styles.item}>
+                                <span>wind speed</span>
+                                <span>{wind.speed}</span>
+                            </div>
                         </div>
                     </div>
                 </div>
