@@ -1,10 +1,20 @@
 // <import styles
-import Image from 'next/image';
-import { useEffect, useState } from 'react';
-import { getWeatherApi } from '../../services/service';
 import styles from './city.module.scss';
-import { useRouter } from 'next/router';
 // import styles>
+
+// <import react
+import { useState } from 'react';
+// import react>
+
+// <import next
+import Image from 'next/image';
+import { useRouter } from 'next/router';
+// import next>
+
+// <import services
+import { getWeatherApi } from '../../services/service';
+import Head from 'next/head';
+// import services>
 
 export default function City({resData}) {
 
@@ -45,46 +55,56 @@ export default function City({resData}) {
     // search result>
 
     return (
-        <div className={styles.city}>
-            <span className={styles.homePage} onClick={() => router.push('/')} >Home Page</span>
-            <div className={styles.content}>
-                <div className={styles.mainBanner}>
-                    <div className={styles.image}>
-                        <Image src={'/images/wallpaper.jpg'} width={'600px'} height={'600px'} alt='weather'/>
-                    </div>
-                    <span className={styles.header}>.openweathermap</span>
-                    <div className={styles.displayCityDetails}>
-                        temp :
-                        <h3>{main.temp}</h3>
-                        <div className={styles.cityAndDate}>
-                            <h4>{name}</h4>
-                            <span>{date.toString().slice(0, 15)}</span>
+        <>
+            <Head>
+                <title>{name}</title>
+                <meta name="description" content="open weather map"/>
+            </Head>
+            <div className={styles.city}>
+                <span className={styles.homePage} onClick={() => router.push('/')} >Home Page</span>
+                <div className={styles.content}>
+                    <div className={styles.mainBanner}>
+                        <div className={styles.image}>
+                            <Image src={'/images/wallpaper.jpg'} width={'600px'} height={'600px'} quality={100} alt='weather'/>
                         </div>
-                        <span>{weather[0].main}</span>
+                        <span className={styles.header}>.openweathermap</span>
+                        <div className={styles.displayCityDetails}>
+                            <div className={styles.temp}>
+                                <span>
+                                    temp :
+                                </span>
+                                <h3>{main.temp}</h3>
+                            </div>
+                            <div className={styles.cityAndDate}>
+                                <h4>{name}</h4>
+                                <span>{date.toString().slice(0, 15)}</span>
+                            </div>
+                            <span>{weather[0].main}</span>
+                        </div>
                     </div>
-                </div>
-                <div className={styles.searchAndDetails}>
-                    <input type="search" placeholder='Another Location ...' onKeyDown={handleSubmitSearch}  onChange={(e) => setSearchInput(e.target.value)} />
-                    <div className={styles.weatherDetails}>
-                        <h5>Weather Details</h5>
-                        <div className={styles.details}>
-                            <div className={styles.item}>
-                                <span>cloud</span>
-                                <span>{clouds.all}</span>
-                            </div>
-                            <div className={styles.item}>
-                                <span>humidity</span>
-                                <span>{main.humidity}</span>
-                            </div>
-                            <div className={styles.item}>
-                                <span>wind speed</span>
-                                <span>{wind.speed}</span>
+                    <div className={styles.searchAndDetails}>
+                        <input type="search" placeholder='Another Location (press enter)' onKeyDown={handleSubmitSearch}  onChange={(e) => setSearchInput(e.target.value)} />
+                        <div className={styles.weatherDetails}>
+                            <h5>Weather Details</h5>
+                            <div className={styles.details}>
+                                <div className={styles.item}>
+                                    <span>cloud</span>
+                                    <span>{clouds.all}</span>
+                                </div>
+                                <div className={styles.item}>
+                                    <span>humidity</span>
+                                    <span>{main.humidity}</span>
+                                </div>
+                                <div className={styles.item}>
+                                    <span>wind speed</span>
+                                    <span>{wind.speed}</span>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
+        </>
     )
 };
 
