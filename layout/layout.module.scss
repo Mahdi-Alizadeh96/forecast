@@ -1,0 +1,9 @@
+.layout {
+  & > span {
+    img {
+      object-fit: cover;
+      filter: blur(13px);
+      z-index: -1;
+    }
+  }
+}

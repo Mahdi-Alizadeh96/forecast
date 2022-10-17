@@ -1,0 +1,27 @@
+// <Variables Import
+@import "../../styles/variables.scss";
+// Variables Import>
+
+.city {
+    display: flex;
+    padding: 3rem;
+    .mainBanner {
+        position: relative;
+        .image {
+            & > span {
+                img {
+                    object-fit: cover;
+                }
+            }
+        }
+        .header {
+            position: absolute;
+            top: 33px;
+            font-size: 0.9rem;
+            left: 20px;
+        }
+    }
+    .searchAndDetails {
+
+    }
+}
