@@ -1,5 +1,6 @@
 .layout {
   & > span {
+    z-index: -1;
     img {
       object-fit: cover;
       filter: blur(13px);
