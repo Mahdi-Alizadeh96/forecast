@@ -51,12 +51,14 @@
                     margin-right: 1rem;
                     margin-top: auto;
                     margin-bottom: 0.6rem;
+                    color: map-get($colors , Main);
                 }
                 .cityAndDate {
                     margin-bottom: 0.6rem;
                     margin-right: 0.5rem;
                     h4 {
                         margin: 0;
+                        color: map-get($colors , Main);
                     }
                 }
                 & > span {
@@ -75,6 +77,7 @@
                 border: unset;
                 background-color: unset;
                 border-bottom: 1px solid map-get($colors , LightWhite);
+                color: map-get($colors , Main);
                 padding: 0.3rem;
                 margin-bottom: 1.5rem;
                 width: 100%;
